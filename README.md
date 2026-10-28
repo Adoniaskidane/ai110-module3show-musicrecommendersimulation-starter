@@ -124,16 +124,118 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Sample Recommendation Output
 
-Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
+Output of `python3 src/main.py` for the default profile (a late-night study listener: lofi, chill, low energy, likes acoustic):
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+$ python3 src/main.py
+Loaded songs: 20
+
+================================================================
+  🎵  Top Recommendations
+================================================================
+  Profile: lofi · chill · energy 0.40 · acoustic
+----------------------------------------------------------------
+
+  #1  Library Rain  —  Paper Lanterns
+      lofi / chill
+      Score: 5.35 / 5.5  ███████████████████░
+      Why:
+        • genre match: lofi (+2.0)
+        • mood match: chill (+1.5)
+        • energy 0.35 vs target 0.40 (+1.42)
+        • acoustic sound (+0.43)
+
+  #2  Midnight Coding  —  LoRoom
+      lofi / chill
+      Score: 5.32 / 5.5  ███████████████████░
+      Why:
+        • genre match: lofi (+2.0)
+        • mood match: chill (+1.5)
+        • energy 0.42 vs target 0.40 (+1.47)
+        • acoustic sound (+0.35)
+
+  #3  Spacewalk Thoughts  —  Orbit Bloom
+      ambient / chill
+      Score: 4.28 / 5.5  ████████████████░░░░
+      Why:
+        • related genre: ambient (+1.0)
+        • mood match: chill (+1.5)
+        • energy 0.28 vs target 0.40 (+1.32)
+        • acoustic sound (+0.46)
+
+  #4  Focus Flow  —  LoRoom
+      lofi / focused
+      Score: 3.89 / 5.5  ██████████████░░░░░░
+      Why:
+        • genre match: lofi (+2.0)
+        • energy 0.40 vs target 0.40 (+1.50)
+        • acoustic sound (+0.39)
+
+  #5  Coffee Shop Stories  —  Slow Stereo
+      jazz / relaxed
+      Score: 1.90 / 5.5  ███████░░░░░░░░░░░░░
+      Why:
+        • energy 0.37 vs target 0.40 (+1.46)
+        • acoustic sound (+0.45)
+
+================================================================
 ```
+
+### Second example: pop / happy profile
+
+This is the profile the starter tests use (pop, happy, energy 0.80, non-acoustic). Sunrise City matches on all four features and ranks #1, as expected.
+
+```
+================================================================
+  🎵  Top Recommendations
+================================================================
+  Profile: pop · happy · energy 0.80 · non-acoustic
+----------------------------------------------------------------
+
+  #1  Sunrise City  —  Neon Echo
+      pop / happy
+      Score: 5.38 / 5.5  ████████████████████
+      Why:
+        • genre match: pop (+2.0)
+        • mood match: happy (+1.5)
+        • energy 0.82 vs target 0.80 (+1.47)
+        • non-acoustic sound (+0.41)
+
+  #2  Rooftop Lights  —  Indigo Parade
+      indie pop / happy
+      Score: 4.26 / 5.5  ████████████████░░░░
+      Why:
+        • related genre: indie pop (+1.0)
+        • mood match: happy (+1.5)
+        • energy 0.76 vs target 0.80 (+1.44)
+        • non-acoustic sound (+0.33)
+
+  #3  Gym Hero  —  Max Pulse
+      pop / intense
+      Score: 3.78 / 5.5  ██████████████░░░░░░
+      Why:
+        • genre match: pop (+2.0)
+        • energy 0.93 vs target 0.80 (+1.30)
+        • non-acoustic sound (+0.47)
+
+  #4  Concrete Verses  —  Kilo Static
+      hip hop / confident
+      Score: 1.91 / 5.5  ███████░░░░░░░░░░░░░
+      Why:
+        • energy 0.78 vs target 0.80 (+1.47)
+        • non-acoustic sound (+0.44)
+
+  #5  Night Drive Loop  —  Neon Echo
+      synthwave / moody
+      Score: 1.81 / 5.5  ███████░░░░░░░░░░░░░
+      Why:
+        • energy 0.75 vs target 0.80 (+1.42)
+        • non-acoustic sound (+0.39)
+
+================================================================
+```
+
+One result here is a weakness. **Fiesta en la Calle** (latin, playful, energy 0.85) sounds like one of the happiest songs in the catalog, but it lands at **#7** and doesn't make the top 5. "Playful" isn't an exact match for "happy", so it gets no mood points, and even the *moody* "Night Drive Loop" beats it. Below the top 3, the order is decided almost entirely by energy.
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 

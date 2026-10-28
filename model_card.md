@@ -21,16 +21,32 @@ Prompts:
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
+Think of the recommender as a judge at a talent show who gives every song a score card. The user tells it four things about their taste:
 
-Prompts:  
+- their **favorite genre** (like pop or lofi)
+- their **favorite mood** (like happy or chill)
+- how much **energy** they want, from 0 (very calm) to 1 (very intense)
+- whether they **like acoustic** music or prefer electronic sounds
 
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
+Then the judge looks at every song in the catalog, one at a time, and hands out points:
 
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+| What it checks | Points |
+|---|---|
+| Same genre as the user's favorite | 2.0 |
+| A close cousin genre (pop and indie pop, or lofi and ambient) | 1.0 |
+| Same mood as the user's favorite | 1.5 |
+| Energy close to what the user wants | up to 1.5 (the closer, the more points) |
+| Acoustic sound that fits the user's taste | up to 0.5 |
+
+A perfect song scores 5.5. Every time a song earns points, the judge writes down why (for example, "genre match: lofi (+2.0)"). The user doesn't just see a list. They see *why* each song made it.
+
+When every song has a score, the judge sorts them from highest to lowest and shows the top 5.
+
+**Why these weights?** Genre gets the most points because it is the most stable part of someone's taste. Getting metal when you asked for lofi feels broken. Mood comes next because it describes the moment you're in. Energy gives points for *closeness*, not for being high or low. A calm listener should get calm songs, not the loudest ones.
+
+**What I left out on purpose:** Each song also has tempo, danceability, and "positivity" (valence) numbers. Tempo and danceability mostly rise and fall with energy, so counting them would reward the same thing three times. Valence barely changes between songs in this catalog. These values are stored but not scored.
+
+**Changes from the starter:** The starter code only had empty placeholders that returned nothing. I wrote the song loader, the scoring rules above, the ranking step, and a clean terminal display. The whole thing runs as a simple command-line program.
 
 ---
 
