@@ -2,7 +2,7 @@ import csv
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
 
-# Genre pairs that earn partial credit (+1.0) instead of a full match.
+# Genre pairs that earn partial credit (+0.5) instead of a full match.
 RELATED_GENRES = {
     frozenset(("pop", "indie pop")),
     frozenset(("lofi", "ambient")),
@@ -77,11 +77,11 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     user_genre = user_prefs["favorite_genre"].strip().lower()
     song_genre = song["genre"].strip().lower()
     if song_genre == user_genre:
-        score += 2.0
-        reasons.append(f"genre match: {song_genre} (+2.0)")
+        score += 1.0  # EXPERIMENT: halved from 2.0
+        reasons.append(f"genre match: {song_genre} (+1.0)")
     elif frozenset((user_genre, song_genre)) in RELATED_GENRES:
-        score += 1.0
-        reasons.append(f"related genre: {song_genre} (+1.0)")
+        score += 0.5  # EXPERIMENT: halved from 1.0
+        reasons.append(f"related genre: {song_genre} (+0.5)")
 
     user_mood = user_prefs["favorite_mood"].strip().lower()
     song_mood = song["mood"].strip().lower()
@@ -90,7 +90,8 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
         reasons.append(f"mood match: {song_mood} (+1.5)")
 
     # Closeness, not size: full points when energy equals the target.
-    energy_points = 1.5 * (1 - abs(song["energy"] - user_prefs["target_energy"]))
+    # EXPERIMENT: doubled from 1.5
+    energy_points = 3.0 * (1 - abs(song["energy"] - user_prefs["target_energy"]))
     score += energy_points
     reasons.append(f"energy {song['energy']:.2f} vs target {user_prefs['target_energy']:.2f} (+{energy_points:.2f})")
 
