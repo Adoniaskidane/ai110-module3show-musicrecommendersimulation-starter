@@ -271,10 +271,26 @@ Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
 
-Write 1 to 2 paragraphs here about what you learned:
+### Personal Reflection on My Engineering Process
 
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
+**What was my biggest learning moment?**
+It was when I looked at my own profile (reggae, focused, energy 0.8). Island Breeze Riddim came out #1 even though it missed my mood and my energy. At first I thought my scoring was wrong. But the math was fine. The real cause was the data: it is the only reggae song in the catalog. A genre match is worth 2.0 points, and a song with no genre or mood match can never score more than 2.0. So that one song was guaranteed to win. That's when I understood that a recommender is only as fair as its data. Code can be correct and still give some users a worse experience.
+
+**How did AI tools help me, and when did I need to double-check them?**
+AI helped me move fast. It wrote edge-case profiles I wouldn't have thought of, like an "acoustic metalhead" and an energy value of 1.5. It ran the program for all profiles, compared results before and after my weight experiment, and turned the findings into plain language. I still had to check its work:
+- **The math.** After the weight shift, I made sure every score still equaled the sum of its reasons and that the new maximum was 6.0, not 5.5.
+- **Where things went.** It sometimes put content in a different place than I wanted, like the README instead of the model card. It also added an example I had only meant as a style guide. I had to tell it to move or remove those.
+- **What was left behind.** The weight experiment stayed in the code after we finished. That meant the numbers in my model card didn't match a fresh run of the program.
+- **Its choices.** It made some decisions for me, like the name "TuneJudge" and comparing 9 pairs of profiles instead of all 36. These were reasonable, but they were my calls to make, not the AI's.
+
+**What surprised me about how simple algorithms can still "feel" like recommendations?**
+My system is just four point rules and a sort. It doesn't listen to music at all. Still, the Chill Lofi results felt like a real study playlist. The "Why" bullets under each song made it feel smart and personal. The surprise was the other side: it feels just as confident when it's wrong. The k-pop user got a neat top 5 with scores around 1.5 out of 5.5, and nothing on screen says "these don't really fit you." A tidy list with reasons makes almost anything look like a good recommendation.
+
+**What would I try next?**
+- Add more songs so every genre has at least 5. This would fix the one-song filter bubble.
+- Give partial credit for similar moods, like "happy" and "playful," the way I already do for related genres.
+- Show a "no strong match" message when the best score is low, and reject energy values outside 0 to 1.
+- Let users pick more than one favorite genre, and keep the top 5 from being all the same style.
 
 
 
